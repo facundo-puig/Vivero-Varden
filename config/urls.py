@@ -6,11 +6,13 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
 )
 
+from config.routers import router
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api-auth/", include("rest_framework.urls")),
     path("api/auth/", include("usuarios.urls")),
-    path("api/", include("catalogo.urls")),
-    path("api/", include("ventas.urls")),
+    path("api/", include(router.urls)),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
