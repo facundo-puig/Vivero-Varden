@@ -8,3 +8,12 @@ class EsAutorOSoloLectura(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return obj.usuario_id == request.user.id or request.user.is_staff
+
+
+class EsStaffOSoloLectura(permissions.BasePermission):
+    """Leer: cualquiera. Crear, editar o borrar: solo el staff."""
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user.is_staff
