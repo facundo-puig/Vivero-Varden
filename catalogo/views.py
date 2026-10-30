@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
@@ -12,6 +12,7 @@ from .models import (
     Etiqueta,
     Familia,
     GuiaCuidado,
+    Producto,
     Proveedor,
 )
 from .permissions import EsAutorOSoloLectura, EsStaffOSoloLectura
@@ -24,6 +25,8 @@ from .serializers import (
     FamiliaSerializer,
     GuiaCuidadoSerializer,
     ProveedorSerializer,
+    ProductoListSerializer,
+    ProductoSerializer,
 )
 
 
@@ -93,3 +96,24 @@ class ComentarioViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(usuario=self.request.user)
+
+
+class ProductoViewSet(viewsets.ModelViewSet):
+    queryset = Producto.objects.select_related("categoria", "proveedor").prefetch_related("etiquetas")
+    permission_classes = [EsStaffOSoloLectura]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ["categoria", "tamano", "especie", "etiquetas"]
+    search_fields = ["nombre", "descripcion"]
+    ordering_fields = ["precio", "nombre"]
+
+    def get_serializer_class(self):
+        if self.action in ("list", "bajo_stock"):
+            return ProductoListSerializer
+        return ProductoSerializer
+
+    @action(detail=False, methods=["get"], permission_classes=[IsAdminUser])
+    def bajo_stock(self, request):
+        queryset = self.filter_queryset(self.get_queryset()).filter(stock__lte=5)
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
