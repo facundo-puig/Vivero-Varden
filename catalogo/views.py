@@ -1,4 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -117,3 +118,11 @@ class ProductoViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
+
+
+def home(request):
+    contexto = {
+        "total_productos": Producto.objects.filter(activo=True).count(),
+        "total_especies": Especie.objects.count(),
+    }
+    return render(request, "catalogo/home.html", contexto)

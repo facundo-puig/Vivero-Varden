@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
+from catalogo.views import home
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -9,6 +10,7 @@ from drf_spectacular.views import (
 from config.routers import router
 
 urlpatterns = [
+    path("", home, name="home"),
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
     path("api/auth/", include("usuarios.urls")),
