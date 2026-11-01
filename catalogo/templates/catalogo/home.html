@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivero Varden</title>
+    <style>
+        :root {
+            --verde-oscuro: #1f4d36;
+            --verde: #2f7a4f;
+            --verde-claro: #e8f3ec;
+            --texto: #1c2b22;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            color: var(--texto);
+            background: var(--verde-claro);
+        }
+
+        header {
+            background: var(--verde-oscuro);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 .5rem;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            margin: 0;
+            opacity: .9;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .cifras {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cifra {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .cifra strong {
+            display: block;
+            font-size: 2rem;
+            color: var(--verde);
+        }
+
+        h2 {
+            color: var(--verde-oscuro);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: .75rem;
+        }
+
+        a.enlace {
+            display: block;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            color: var(--verde-oscuro);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a.enlace:hover {
+            background: var(--verde);
+            color: white;
+        }
+
+        a.enlace span {
+            display: block;
+            font-weight: 400;
+            font-size: .9rem;
+            opacity: .8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: .9rem;
+            opacity: .7;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Vivero Varden</h1>
+        <p>Plantas, macetas e información botánica para tu hogar</p>
+    </header>
+
+    <main>
+        <div class="cifras">
+            <div class="cifra"><strong>{{ total_productos }}</strong>productos activos</div>
+            <div class="cifra"><strong>{{ total_especies }}</strong>especies catalogadas</div>
+        </div>
+
+        <h2>API de Vivero Varden</h2>
+        <p>Este servicio expone los datos del vivero a través de una API REST. Desde acá podés acceder a:</p>
+
+        <ul>
+            <li><a class="enlace" href="/api/docs/">Documentación Swagger<span>Probá los endpoints desde el
+                        navegador</span></a></li>
+            <li><a class="enlace" href="/api/redoc/">Documentación Redoc<span>Referencia de la API en formato de
+                        lectura</span></a></li>
+            <li><a class="enlace" href="/api/">API navegable<span>Listado de recursos disponibles</span></a></li>
+            <li><a class="enlace" href="/admin/">Panel de administración<span>Gestión interna del vivero</span></a></li>
+        </ul>
+    </main>
+
+    <footer>Vivero Varden · Ingeniería de Software 2026</footer>
+</body>
+
+</html>
