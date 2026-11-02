@@ -60,5 +60,6 @@ class PerfilSerializer(serializers.ModelSerializer):
             "telefono",
             "direccion",
             "localidad",
+            "is_staff",
         ]
-        read_only_fields = ["id", "username"]
+        read_only_fields = ["id", "username", "is_staff"]
