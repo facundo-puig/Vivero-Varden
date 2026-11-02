@@ -27,6 +27,7 @@ from .serializers import (
     GuiaCuidadoSerializer,
     ProveedorSerializer,
     ProductoListSerializer,
+    ProductoStaffListSerializer,
     ProductoSerializer,
 )
 
@@ -100,15 +101,23 @@ class ComentarioViewSet(viewsets.ModelViewSet):
 
 
 class ProductoViewSet(viewsets.ModelViewSet):
-    queryset = Producto.objects.select_related("categoria", "proveedor").prefetch_related("etiquetas")
+    queryset = Producto.objects.select_related("categoria").prefetch_related("etiquetas")
     permission_classes = [EsStaffOSoloLectura]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["categoria", "tamano", "especie", "etiquetas"]
     search_fields = ["nombre", "descripcion"]
     ordering_fields = ["precio", "nombre"]
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.is_staff:
+            return queryset.select_related("proveedor")
+        return queryset.filter(activo=True)
+
     def get_serializer_class(self):
         if self.action in ("list", "bajo_stock"):
+            if self.request.user.is_staff:
+                return ProductoStaffListSerializer
             return ProductoListSerializer
         return ProductoSerializer
 
