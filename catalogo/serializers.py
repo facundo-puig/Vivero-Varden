@@ -87,7 +87,6 @@ class ProductoListSerializer(serializers.ModelSerializer):
     """Listado: categoría, proveedor y etiquetas vienen anidados."""
 
     categoria = CategoriaSerializer(read_only=True)
-    proveedor = ProveedorSerializer(read_only=True)
     etiquetas = EtiquetaSerializer(many=True, read_only=True)  # many=True: muchos a muchos
 
     class Meta:
@@ -101,10 +100,18 @@ class ProductoListSerializer(serializers.ModelSerializer):
             "tamano",
             "imagen",
             "categoria",
-            "proveedor",
             "especie",
             "etiquetas",
         ]
+
+
+class ProductoStaffListSerializer(ProductoListSerializer):
+    """Listado para el staff: suma el proveedor anidado."""
+
+    proveedor = ProveedorSerializer(read_only=True)
+
+    class Meta(ProductoListSerializer.Meta):
+        fields = ProductoListSerializer.Meta.fields + ["proveedor"]
 
 
 class ProductoSerializer(serializers.ModelSerializer):
