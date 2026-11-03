@@ -50,6 +50,8 @@ docker compose exec web python manage.py cargar_datos
 | http://localhost:8000/api/ | API navegable |
 | http://localhost:8000/admin/ | Panel de administración |
 
+**API en producción:** https://vivero-varden-api.onrender.com/api/docs/
+
 Para apagarlo: `docker compose down`.
 
 ## Variables de entorno
