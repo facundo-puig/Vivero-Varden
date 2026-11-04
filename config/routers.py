@@ -10,6 +10,8 @@ from catalogo.views import (
     ProveedorViewSet,
     ProductoViewSet,
 )
+from ventas.views import PedidoViewSet
+
 
 router = DefaultRouter()
 
@@ -21,3 +23,4 @@ router.register("etiquetas", EtiquetaViewSet, basename="etiquetas_vs")
 router.register("proveedores", ProveedorViewSet, basename="proveedores_vs")
 router.register("comentarios", ComentarioViewSet, basename="comentarios_vs")
 router.register("productos", ProductoViewSet, basename="productos_vs")
+router.register("pedidos", PedidoViewSet, basename="pedidos_vs")
